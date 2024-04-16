@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Security::SPA</title>
+    <style>
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+        input, button {
+            height: 20px;
+            margin-right: 10px;
+        }
+        div.result__child {
+            border: 1px solid gray;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+    <body>
+        <h1>Spring Security With MVC(but Kind Of SPA)</h1>
+        <div id="app">
+            <form id="form">
+                <fieldset>
+                    <legend>New User :</legend>
+                    <label>
+                        Username :
+                        <input type="text" name="username" placeholder="Username">
+                    </label>
+                    <input type="hidden" name="_csrf" id="csrf__input">
+                    <button type="submit">Submit</button>
+                    <button type="reset">Reset</button>
+                </fieldset>
+            </form>
+            <hr/>
+
+            <strong>Result:</strong>
+
+            <p id="result_error" style="color: red"></p>
+                <div class="result__child">
+                    <strong>GET:</strong>
+                    <pre id="pre__GET"></pre>
+                </div>
+                <div class="result__child">
+                    <strong>POST:</strong>
+                    <pre id="pre__POST"></pre>
+                </div>
+        </div>
+    <script>
+        const apiHost = 'http://localhost:8080';
+
+        document.getElementById('csrf__input').value = document.cookie.split(";")[0].split("=")[1];
+
+        document.getElementById('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const username = formData.get('username');
+            fetch(`${apiHost}/api`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-XSRF-TOKEN': document.cookie.split(";")[0].split("=")[1],
+                },
+                body: JSON.stringify({username})
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    document.getElementById('pre__POST').innerText = JSON.stringify(data);
+                });
+        });
+
+        fetch(`${apiHost}/api`, {
+            method: 'GET',
+            headers: {
+                'X-XSRF-TOKEN': document.cookie.split(";")[0].split("=")[1],
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                document.getElementById('pre__GET').innerText = JSON.stringify(data);
+            });
+    </script>
+    </body>
+</html>

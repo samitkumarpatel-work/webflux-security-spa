@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Security::SPA</title>
+    <style>
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+        input, button {
+            height: 20px;
+            margin-right: 10px;
+        }
+        div.result__child {
+            border: 1px solid gray;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+    <body>
+        <h1>Spring Security With SPA</h1>
+        <div id="app">
+            <form id="form">
+                <fieldset>
+                    <legend>New User :</legend>
+                    <label>
+                        Username :
+                        <input type="text" name="username" placeholder="Username">
+                    </label>
+                    <button type="submit">Submit</button>
+                    <button type="reset">Reset</button>
+                </fieldset>
+            </form>
+            <hr/>
+
+            <strong>Result:</strong>
+
+            <p id="result_error" style="color: red"></p>
+                <div class="result__child">
+                    <strong>GET:</strong>
+                    <pre id="pre__GET"></pre>
+                </div>
+                <div class="result__child">
+                    <strong>POST:</strong>
+                    <pre id="pre__POST"></pre>
+                </div>
+        </div>
+    <script>
+        const apiHost = 'http://localhost:8080';
+    </script>
+    </body>
+</html>
