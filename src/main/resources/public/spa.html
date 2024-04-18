@@ -42,14 +42,24 @@
             <strong>Result:</strong>
 
             <p id="result_error" style="color: red"></p>
-                <div class="result__child">
-                    <strong>GET:</strong>
-                    <pre id="pre__GET"></pre>
-                </div>
-                <div class="result__child">
-                    <strong>POST:</strong>
-                    <pre id="pre__POST"></pre>
-                </div>
+            <div class="result__child">
+                <strong>GET:</strong>
+                <pre id="pre__GET"></pre>
+            </div>
+            <div class="result__child">
+                <strong>POST:</strong>
+                <pre id="pre__POST"></pre>
+            </div>
+            <hr/>
+            <form method="post" action="http://localhost:8080/login">
+                <fieldset>
+                    <legend>Login :</legend>
+                    <input type="text" name="username" placeholder="username"/>
+                    <input type="password" name="password" placeholder="password"/>
+                    <input type="hidden" name="_csrf" value="d9451d7f-788b-4176-bb44-098aa3ce703e"/>
+                    <button type="submit">Login</button>
+                </fieldset>
+            </form>
         </div>
     <script>
         const apiHost = 'http://localhost:8080';
